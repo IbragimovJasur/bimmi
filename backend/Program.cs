@@ -1,12 +1,9 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+﻿using Microsoft.AspNetCore.HttpOverrides;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-// Cor
+// Cors
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -27,14 +24,21 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Add services to the container.
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+app.MapGet("/", () => "Hello ForwardedHeadersOptions!");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 }
-
-app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
 
@@ -43,4 +47,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

@@ -26,6 +26,7 @@
     <None Remove="Validators\" />
     <None Remove="Scrapers\Parsers\" />
     <None Remove="Services\" />
+    <None Remove="LuceneIndex\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -33,5 +34,6 @@
     <Folder Include="Validators\" />
     <Folder Include="Scrapers\Parsers\" />
     <Folder Include="Services\" />
+    <Folder Include="LuceneIndex\" />
   </ItemGroup>
 </Project>
