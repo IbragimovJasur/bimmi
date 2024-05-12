@@ -23,9 +23,13 @@ namespace backend.Scrapers
 
         public GoogleScraper(string queryParam, int maxNumOfPapers, LuceneIndexService luceneIndexService)
         {
+            //ChromeDriverService service = ChromeDriverService.CreateDefaultService("/usr/bin/", "chromedriver");
+
             ChromeOptions options = new ChromeOptions();
-            options.AddArgument("--headless"); // Run Chrome in headless mode
-            options.AddArgument("--disable-gpu"); // Disable GPU acceleration (recommended for headless mode
+            options.AddArgument("-headless");
+            options.AddArgument("--disable-gpu");
+            options.AddArgument("no-sandbox");
+            //_webDriver = new ChromeDriver("/usr/bin/chromedriver", options);
             _webDriver = new ChromeDriver(options);
             _queryParam = queryParam;
             _maxNumOfPapers = maxNumOfPapers;
@@ -56,12 +60,16 @@ namespace backend.Scrapers
         }
         public void openSearchResultsWebPage()
         {
-            _webDriver.Navigate().GoToUrl(_url);
+            string newUrl = $"https://www.google.com/search?q={_queryParam}";
             Thread.Sleep(500);
-            var searchInput = _webDriver.FindElement(By.XPath(searchInputXPath));
-            searchInput.SendKeys(_queryParam);
-            searchInput.SendKeys(Keys.Enter);
-            Thread.Sleep(500);
+
+            _webDriver.Navigate().GoToUrl(newUrl);
+            Thread.Sleep(1000);
+
+            //Thread.Sleep(1000);
+            //var searchInput = _webDriver.FindElement(By.XPath(searchInputXPath));
+            //searchInput.SendKeys(_queryParam);
+            //searchInput.SendKeys(Keys.Enter);
         }
 
         public List<Paper> getMatchedResults()

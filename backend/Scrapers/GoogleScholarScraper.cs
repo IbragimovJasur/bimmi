@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using backend.Models;
+﻿using backend.Models;
 using backend.Scrapers.Parsers;
 using backend.Services;
 using OpenQA.Selenium;
@@ -26,12 +23,14 @@ namespace backend.Scrapers
         public GoogleScholarScraper(string queryParam, LuceneIndexService luceneIndexService)
 		{
             ChromeOptions options = new ChromeOptions();
-            options.AddArgument("--headless"); // Run Chrome in headless mode
-            options.AddArgument("--disable-gpu"); // Disable GPU acceleration (recommended for headless mode
+            options.AddArgument("-headless");
+            options.AddArgument("--disable-gpu");
+            options.AddArgument("no-sandbox");
+            //_webDriver = new ChromeDriver("/usr/bin/chromedriver", options);
             _webDriver = new ChromeDriver(options);
             _queryParam = queryParam;
             _luceneIndexService = luceneIndexService;
-		}
+        }
 
         public void Scrap()
         {

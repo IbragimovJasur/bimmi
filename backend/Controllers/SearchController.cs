@@ -40,11 +40,11 @@ namespace backend.Controllers
                 {
                     ScrapWithThreads(queryParam, luceneIndexService);
                     List<Paper> papers = luceneIndexService.SearchPapersBySearchTerm(queryParam);
-                    foreach (Paper paper in papers)
-                    {
-                        Console.WriteLine("PublishedDate: " + paper.PublishedDate);
-                        Console.WriteLine();
-                    }
+                    //foreach (Paper paper in papers)
+                    //{
+                    //    Console.WriteLine("PublishedDate: " + paper.PublishedDate);
+                    //    Console.WriteLine();
+                    //}
                     return Ok(papers);
                 }
             }
@@ -53,9 +53,6 @@ namespace backend.Controllers
 
         private void ScrapWithThreads(string queryParam, LuceneIndexService luceneIndexService)
         {
-            ChromeOptions options = new ChromeOptions();
-            options.AddArgument("--headless");
-
             // Scraper classes
             GoogleScholarScraper googleScholarScraper = new GoogleScholarScraper(queryParam, luceneIndexService);
             GoogleScraper researchGateGoogleScraper = new GoogleScraper(
